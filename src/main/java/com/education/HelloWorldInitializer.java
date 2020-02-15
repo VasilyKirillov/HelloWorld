@@ -1,24 +1,22 @@
 package com.education;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-public class HelloWorldInitializer implements WebApplicationInitializer {
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[] { AppConfig.class };
+    }
 
-    public void onStartup(ServletContext container) {
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return null;
+    }
 
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        ctx.register(AppConfig.class);
-        ctx.setServletContext(container);
-
-        ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
-
-        servlet.setLoadOnStartup(1);
-        servlet.addMapping("/");
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] { "/" };
     }
 
 }
